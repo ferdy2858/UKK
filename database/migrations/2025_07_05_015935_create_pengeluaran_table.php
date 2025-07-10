@@ -14,6 +14,8 @@ return new class extends Migration
         Schema::create('pengeluarans', function (Blueprint $table) {
             $table->id();
             $table->date('tanggal');
+            $table->string('tujuan');
+            $table->string('status')->default('draft');
             $table->text('keterangan')->nullable();
             $table->timestamps();
         });

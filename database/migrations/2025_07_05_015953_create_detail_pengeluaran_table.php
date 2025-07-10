@@ -4,6 +4,8 @@ use Illuminate\Database\Migrations\Migration;
 use Illuminate\Database\Schema\Blueprint;
 use Illuminate\Support\Facades\Schema;
 
+use function Laravel\Prompts\text;
+
 return new class extends Migration
 {
     /**
@@ -15,7 +17,9 @@ return new class extends Migration
             $table->id();
             $table->bigInteger('pengeluaran_id');
             $table->bigInteger('produk_id');
+            $table->decimal('harga_satuan', 12, 2)->nullable(); 
             $table->integer('qty');
+            $table->text('keterangan')->nullable();
             $table->timestamps();
         });
     }

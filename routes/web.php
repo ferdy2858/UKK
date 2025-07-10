@@ -2,6 +2,11 @@
 
 use Illuminate\Support\Facades\Route;
 use App\Http\Controllers\AuthController;
+use App\Http\Controllers\ProdukController;
+use App\Http\Controllers\KategoriController;
+use App\Http\Controllers\PenerimaanController;
+use App\Http\Controllers\PengeluarannController;
+use App\Http\Controllers\SupplierController;
 
 Route::get('/login', [AuthController::class, 'showLoginForm'])->name('login');
 Route::post('/login', [AuthController::class, 'login']);
@@ -11,4 +16,9 @@ Route::middleware('auth')->group(function () {
     Route::get('/', function () {
         return view('dashboard');
     });
+    Route::resource('kategori', KategoriController::class);
+    Route::resource('produk', ProdukController::class);
+    Route::resource('supplier', SupplierController::class);
+    Route::resource('penerimaan', PenerimaanController::class);
+    Route::resource('pengeluaran', PengeluarannController::class);
 });

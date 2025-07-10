@@ -16,6 +16,7 @@ return new class extends Migration
         $table->string('nama_supplier', 100);
         $table->text('alamat')->nullable();
         $table->string('no_telp', 20)->nullable();
+        $table->string('gmail')->nullable();
         $table->timestamps();
 });
 }

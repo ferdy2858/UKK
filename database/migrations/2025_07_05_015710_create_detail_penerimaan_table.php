@@ -17,6 +17,7 @@ return new class extends Migration
             $table->bigInteger('produk_id');
             $table->integer('qty');
             $table->decimal('harga_satuan', 12, 2);
+            $table->text('keterangan')->nullable();
             $table->timestamps();
         });
     }
