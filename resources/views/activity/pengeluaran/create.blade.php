@@ -14,16 +14,24 @@
     </div>
 
     <div class="rounded-b-xl bg-white shadow -mt-1 overflow-hidden">
-
-        {{-- ALERT STOK TIDAK CUKUP --}}
-        @if ($errors->has('stok'))
-            <div class="bg-red-100 text-red-800 border border-red-400 px-4 py-3 rounded m-6">
-                ⚠️ {{ $errors->first('stok') }}
-            </div>
-        @endif
-        
         <form action="{{ route('pengeluaran.store') }}" method="POST" class="p-6 space-y-6">
             @csrf
+
+            {{-- ALERT STOK TIDAK CUKUP --}}
+            @if ($errors->has('stok'))
+                <script>
+                    document.addEventListener('DOMContentLoaded', function() {
+                        @if ($errors->has('stok'))
+                            Swal.fire({
+                                icon: 'error',
+                                title: 'Stok Tidak Cukup',
+                                html: {!! json_encode($errors->first('stok')) !!},
+                                confirmButtonColor: '#d33'
+                            });
+                        @endif
+                    });
+                </script>
+            @endif
 
             <div class="grid grid-cols-1 md:grid-cols-2 gap-6">
                 <!-- Tanggal -->

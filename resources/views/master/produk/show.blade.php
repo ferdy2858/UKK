@@ -68,16 +68,16 @@
         {{-- Tombol Aksi --}}
         <div class="flex justify-end gap-2 pt-4">
             <a href="{{ route('produk.edit', $produk->id) }}"
-               class="bg-yellow-500 text-white px-4 py-2 rounded hover:bg-yellow-600">
-                Edit
+               class="bg-yellow-500 text-white px-4 py-2 rounded hover:bg-yellow-600" title="edit">
+                <i class="fa-solid fa-pen"></i>
             </a>
 
             <form action="{{ route('produk.destroy', $produk->id) }}" method="POST"
                   onsubmit="return confirm('Yakin hapus data ini?')">
                 @csrf
                 @method('DELETE')
-                <button type="submit" class="bg-red-600 text-white px-4 py-2 rounded hover:bg-red-700">
-                    Hapus
+                <button type="submit" class="bg-red-600 text-white px-4 py-2 rounded hover:bg-red-700" title="hapus">
+                    <i class="fa-solid fa-trash"></i>
                 </button>
             </form>
         </div>

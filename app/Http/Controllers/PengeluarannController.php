@@ -14,9 +14,18 @@ class PengeluarannController extends Controller
      */
     public function index()
     {
-        $pengeluarans = Pengeluaran::with('details')->orderBy('tanggal', 'desc')->get();
+        $query = Pengeluaran::with('details')->orderBy('tanggal', 'desc');
+
+        // Filter berdasarkan status jika ada request
+        if (request('status')) {
+            $query->where('status', request('status'));
+        }   
+
+        $pengeluarans = $query->paginate(20); // Ganti dari ->get() ke ->paginate(20)
+
         return view('activity.pengeluaran.index', compact('pengeluarans'));
     }
+
 
     /**
      * Show the form for creating a new resource.
@@ -42,7 +51,7 @@ class PengeluarannController extends Controller
             'harga_satuan.*' => 'nullable|numeric|min:0',
         ]);
 
-        // Cek stok dulu kalau status disetujui
+        // Validasi stok hanya jika status disetujui
         if ($request->status === 'disetujui') {
             foreach ($request->produk_id as $i => $produkId) {
                 $produk = Produk::findOrFail($produkId);
@@ -64,7 +73,7 @@ class PengeluarannController extends Controller
             'keterangan' => $request->keterangan,
         ]);
 
-        // Simpan detail dan update stok (kalau disetujui)
+        // Simpan detail dan hanya kurangi stok jika status disetujui
         foreach ($request->produk_id as $i => $produkId) {
             $qty = $request->qty[$i];
             $produk = Produk::findOrFail($produkId);
@@ -81,8 +90,10 @@ class PengeluarannController extends Controller
                 'keterangan' => $request->keterangan_detail[$i] ?? null,
             ]);
         }
+
         return redirect()->route('pengeluaran.index')->with('success', 'Pengeluaran berhasil ditambahkan.');
     }
+
 
 
 
@@ -208,8 +219,50 @@ class PengeluarannController extends Controller
     /**
      * Remove the specified resource from storage.
      */
-    public function destroy(string $id)
+    public function destroy($id)
     {
-        //
+        $pengeluaran = Pengeluaran::with('details')->findOrFail($id);
+
+        // Cek status terlebih dahulu
+        if ($pengeluaran->status !== 'draft') {
+            return redirect()->route('pengeluaran.index')
+                ->with('error', 'Hanya pengeluaran dengan status draft yang bisa dihapus.');
+        }
+
+        // Hapus semua detail dan data utama
+        $pengeluaran->details()->delete();
+        $pengeluaran->delete();
+
+        return redirect()->route('pengeluaran.index')
+            ->with('success', 'Pengeluaran berhasil dihapus.');
+    }
+
+    public function approve($id)
+    {
+        $pengeluaran = Pengeluaran::with('details.produk')->findOrFail($id);
+
+        if ($pengeluaran->status !== 'draft') {
+            return redirect()->back()->with('error', 'Data sudah disetujui.');
+        }
+
+        // Cek apakah semua stok cukup
+        foreach ($pengeluaran->details as $detail) {
+            if ($detail->produk->stok < $detail->qty) {
+                return redirect()->back()->with('error', 'Stok tidak cukup untuk produk: ' . $detail->produk->nama_produk);
+            }
+        }
+
+        // Kurangi stok
+        foreach ($pengeluaran->details as $detail) {
+            $produk = $detail->produk;
+            $produk->stok -= $detail->qty;
+            $produk->save();
+        }
+
+        // Set status pengeluaran menjadi disetujui
+        $pengeluaran->status = 'disetujui';
+        $pengeluaran->save();
+
+        return redirect()->back()->with('success', 'Pengeluaran disetujui dan stok berhasil dikurangi.');
     }
 }

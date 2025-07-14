@@ -91,20 +91,22 @@
         </div>
 
         {{-- Tombol Aksi --}}
-        <div class="flex justify-end gap-2 pt-4">
-            <a href="{{ route('pengeluaran.edit', $pengeluaran->id) }}"
-               class="bg-yellow-500 text-white px-4 py-2 rounded hover:bg-yellow-600">
-                Edit
-            </a>
+        @if ($pengeluaran->status === 'draft')
+            <div class="flex justify-end gap-2 pt-4">
+                <a href="{{ route('pengeluaran.edit', $pengeluaran->id) }}"
+                    class="bg-yellow-500 text-white px-4 py-2 rounded hover:bg-yellow-600" title="edit">
+                    <i class="fa-solid fa-pen"></i>
+                </a>
 
-            <form action="{{ route('pengeluaran.destroy', $pengeluaran->id) }}" method="POST"
-                  onsubmit="return confirm('Yakin hapus data ini?')">
-                @csrf
-                @method('DELETE')
-                <button type="submit" class="bg-red-600 text-white px-4 py-2 rounded hover:bg-red-700">
-                    Hapus
-                </button>
-            </form>
-        </div>
+                <form action="{{ route('pengeluaran.destroy', $pengeluaran->id) }}" method="POST"
+                    onsubmit="return confirm('Yakin hapus data ini?')">
+                    @csrf
+                    @method('DELETE')
+                    <button type="submit" class="bg-red-600 text-white px-4 py-2 rounded hover:bg-red-700" title="hapus">
+                        <i class="fa-solid fa-trash"></i>
+                    </button>
+                </form>
+            </div>
+        @endif
     </div>
 @endsection

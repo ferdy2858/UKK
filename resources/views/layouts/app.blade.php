@@ -5,6 +5,8 @@
     <meta charset="UTF-8">
     <title>@yield('title', 'Dashboard')</title>
     <script src="https://cdn.tailwindcss.com"></script>
+    <script src="https://cdn.jsdelivr.net/npm/sweetalert2@11"></script>
+    <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.5.0/css/all.min.css">
 </head>
 
 <body class="bg-gray-100 text-gray-800">
@@ -14,24 +16,36 @@
         <!-- Sidebar -->
         <aside id="sidebar"
             class="bg-white w-64 h-full fixed top-0 left-0 z-40 pt-16 shadow-lg transform transition-transform duration-300 -translate-x-full">
-            <div class="p-4 text-lg font-bold border-b">WareHouse</div>
-            <nav class="p-4 space-y-2">
-                <!-- Menu Biasa -->
-                <a href="/"
-                    class="block px-4 py-2 rounded hover:bg-gray-200 {{ Request::is('/') ? 'bg-gray-200 font-semibold' : '' }}">
-                    Dashboard
-                </a>
+            <!-- Header Sidebar -->
+            <div class="px-6 py-4 text-2xl font-bold border-b border-gray-200 flex items-center gap-2">
+                <i class="fa-solid fa-building text-blue-600"></i>
+                <span>WareHouse</span>
+            </div>
 
-                @php
-                    $isDropdownMasterActive = Request::is('produk') || Request::is('kategori') || Request::is('supplier');
-                    $isDropdownActivityActive = Request::is('penerimaan') || Request::is('pengeluaran');
-                @endphp
+            @php
+                $isDropdownMasterActive =
+                    $isDropdownMasterActive ??
+                    Request::is('produk') || Request::is('kategori') || Request::is('supplier');
+                $isDropdownActivityActive =
+                    $isDropdownActivityActive ?? Request::is('penerimaan') || Request::is('pengeluaran');
+            @endphp
 
-                <!-- Dropdown Menu: Master -->
-                <div class="relative">
+
+            <!-- Navigation -->
+            <nav class="px-4 py-6 space-y-6 text-sm text-gray-700">
+                <!-- Dashboard -->
+                <div>
+                    <a href="/"
+                        class="block px-4 py-2 rounded-md hover:bg-gray-100 transition {{ Request::is('/') ? 'bg-gray-100 font-semibold text-blue-600' : '' }}">
+                        <i class="fa-solid fa-chart-line mr-2"></i> Dashboard
+                    </a>
+                </div>
+
+                <!-- Master Menu -->
+                <div>
                     <button id="dropdownToggle" type="button"
-                        class="w-full flex items-center justify-between px-4 py-2 rounded hover:bg-gray-200 focus:outline-none {{ $isDropdownMasterActive ? 'bg-gray-200 font-semibold' : '' }}">
-                        <span>Master</span>
+                        class="w-full flex items-center justify-between px-4 py-2 rounded-md hover:bg-gray-100 transition {{ $isDropdownMasterActive ? 'bg-gray-100 font-semibold text-blue-600' : '' }}">
+                        <span><i class="fa-solid fa-database mr-2"></i> Master</span>
                         <svg id="dropdownIcon"
                             class="w-4 h-4 transform transition-transform duration-200 {{ $isDropdownMasterActive ? 'rotate-180' : '' }}"
                             fill="none" stroke="currentColor" viewBox="0 0 24 24">
@@ -39,27 +53,27 @@
                         </svg>
                     </button>
                     <div id="dropdownMenu"
-                        class="mt-2 ml-4 space-y-1 transition-all duration-300 overflow-hidden {{ $isDropdownMasterActive ? 'max-h-40' : 'max-h-0' }}">
+                        class="ml-4 mt-2 space-y-1 transition-all duration-300 overflow-hidden {{ $isDropdownMasterActive ? 'max-h-40' : 'max-h-0' }}">
                         <a href="/kategori"
-                            class="block px-4 py-2 text-sm rounded hover:bg-gray-100 {{ Request::is('kategori') ? 'bg-gray-200 font-semibold' : '' }}">
+                            class="block px-4 py-2 rounded hover:bg-gray-50 {{ Request::is('kategori') ? 'bg-gray-100 font-semibold text-blue-600' : '' }}">
                             Kategori
                         </a>
                         <a href="/produk"
-                            class="block px-4 py-2 text-sm rounded hover:bg-gray-100 {{ Request::is('produk') ? 'bg-gray-200 font-semibold' : '' }}">
+                            class="block px-4 py-2 rounded hover:bg-gray-50 {{ Request::is('produk') ? 'bg-gray-100 font-semibold text-blue-600' : '' }}">
                             Produk
                         </a>
                         <a href="/supplier"
-                            class="block px-4 py-2 text-sm rounded hover:bg-gray-100 {{ Request::is('supplier') ? 'bg-gray-200 font-semibold' : '' }}">
+                            class="block px-4 py-2 rounded hover:bg-gray-50 {{ Request::is('supplier') ? 'bg-gray-100 font-semibold text-blue-600' : '' }}">
                             Supplier
                         </a>
                     </div>
                 </div>
 
-                <!-- Dropdown Menu: Activity -->
-                <div class="relative">
+                <!-- Activity Menu -->
+                <div>
                     <button id="dropdownActivityToggle" type="button"
-                        class="w-full flex items-center justify-between px-4 py-2 rounded hover:bg-gray-200 focus:outline-none {{ $isDropdownActivityActive ? 'bg-gray-200 font-semibold' : '' }}">
-                        <span>Activity</span>
+                        class="w-full flex items-center justify-between px-4 py-2 rounded-md hover:bg-gray-100 transition {{ $isDropdownActivityActive ? 'bg-gray-100 font-semibold text-blue-600' : '' }}">
+                        <span><i class="fa-solid fa-clipboard-list mr-2"></i> Activity</span>
                         <svg id="dropdownActivityIcon"
                             class="w-4 h-4 transform transition-transform duration-200 {{ $isDropdownActivityActive ? 'rotate-180' : '' }}"
                             fill="none" stroke="currentColor" viewBox="0 0 24 24">
@@ -67,13 +81,13 @@
                         </svg>
                     </button>
                     <div id="dropdownActivityMenu"
-                        class="mt-2 ml-4 space-y-1 transition-all duration-300 overflow-hidden {{ $isDropdownActivityActive ? 'max-h-40' : 'max-h-0' }}">
+                        class="ml-4 mt-2 space-y-1 transition-all duration-300 overflow-hidden {{ $isDropdownActivityActive ? 'max-h-40' : 'max-h-0' }}">
                         <a href="/penerimaan"
-                            class="block px-4 py-2 text-sm rounded hover:bg-gray-100 {{ Request::is('penerimaan') ? 'bg-gray-200 font-semibold' : '' }}">
+                            class="block px-4 py-2 rounded hover:bg-gray-50 {{ Request::is('penerimaan') ? 'bg-gray-100 font-semibold text-blue-600' : '' }}">
                             Penerimaan
                         </a>
                         <a href="/pengeluaran"
-                            class="block px-4 py-2 text-sm rounded hover:bg-gray-100 {{ Request::is('pengeluaran') ? 'bg-gray-200 font-semibold' : '' }}">
+                            class="block px-4 py-2 rounded hover:bg-gray-50 {{ Request::is('pengeluaran') ? 'bg-gray-100 font-semibold text-blue-600' : '' }}">
                             Pengeluaran
                         </a>
                     </div>
@@ -82,11 +96,11 @@
         </aside>
 
         <!-- Header -->
-        <header class="fixed top-0 left-0 right-0 z-50 flex items-center justify-between p-4 bg-white shadow-md">
+        <header id="mainHeader"
+            class="fixed top-0 left-0 right-0 z-50 flex items-center justify-between p-4 bg-white shadow-md transition-all ml-0">
             <button id="toggleBtn" class="text-gray-700">
                 <svg class="w-6 h-6" fill="none" viewBox="0 0 24 24" stroke="currentColor">
-                    <path stroke-linecap="round" stroke-linejoin="round" stroke-width="2"
-                        d="M4 6h16M4 12h16M4 18h16" />
+                    <path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M4 6h16M4 12h16M4 18h16" />
                 </svg>
             </button>
             <form action="/logout" method="POST">
@@ -114,17 +128,20 @@
         const sidebar = document.getElementById('sidebar');
         const toggleBtn = document.getElementById('toggleBtn');
         const mainContent = document.getElementById('mainContent');
+        const mainHeader = document.getElementById('mainHeader');
         let isSidebarOpen = false;
 
         const openSidebar = () => {
             sidebar.classList.remove('-translate-x-full');
             mainContent.classList.add('ml-64');
+            mainHeader.classList.add('ml-64'); // Tambahkan ke header
             isSidebarOpen = true;
         };
 
         const closeSidebar = () => {
             sidebar.classList.add('-translate-x-full');
             mainContent.classList.remove('ml-64');
+            mainHeader.classList.remove('ml-64'); // Hapus dari header
             isSidebarOpen = false;
         };
 
@@ -153,11 +170,10 @@
         let dropdownActivityOpen = {{ $isDropdownActivityActive ? 'true' : 'false' }};
         dropdownActivityToggle.addEventListener('click', () => {
             dropdownActivityOpen = !dropdownActivityOpen;
-            dropdownActivityMenu.style.maxHeight = dropdownActivityOpen ? dropdownActivityMenu.scrollHeight + "px" : "0px";
+            dropdownActivityMenu.style.maxHeight = dropdownActivityOpen ? dropdownActivityMenu.scrollHeight + "px" :
+                "0px";
             dropdownActivityIcon.classList.toggle('rotate-180');
         });
     </script>
-
 </body>
-
 </html>

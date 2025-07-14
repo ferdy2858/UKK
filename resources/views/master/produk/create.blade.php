@@ -39,7 +39,11 @@
                 </div>
                 <div>
                     <label for="satuan" class="block font-medium mb-1">Satuan <span class="text-red-500">*</span></label>
-                    <input type="text" name="satuan" id="satuan" class="w-full border px-3 py-2 rounded" required>
+                    <select name="satuan" class="w-full border px-3 py-2 rounded" required>
+                        <option value="">-- pilih satuan -- </option>
+                        <option value="box">BOX</option>
+                        <option value="pcs">PCS</option>    
+                    </select>
                 </div>
             </div>
 

@@ -16,13 +16,18 @@
 
     {{-- Form --}}
     <div class="rounded-b-xl bg-white shadow -mt-1 overflow-hidden">
-        @if (session('error'))
-            <div class="bg-red-100 border border-red-400 text-red-700 px-4 py-3 rounded relative mb-4" role="alert">
-                <strong class="font-bold">Gagal!</strong>
-                <span class="block sm:inline">{{ session('error') }}</span>
-            </div>
-        @endif
 
+        @if (session('error'))
+            <script>
+                Swal.fire({
+                    icon: 'error',
+                    title: 'Oops!',
+                    html: '{{ session('error') }}',
+                    confirmButtonColor: '#d33'
+                });
+            </script>
+        @endif
+        
         <form action="{{ route('pengeluaran.update', $pengeluaran->id) }}" method="POST" class="p-6 space-y-6">
             @csrf
             @method('PUT')

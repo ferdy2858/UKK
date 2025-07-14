@@ -8,26 +8,40 @@
                 <!-- Tombol Tambah -->
                 <a href="{{ route('produk.create') }}"
                     class="inline-flex items-center px-4 py-2 bg-blue-600 text-white text-sm font-medium rounded hover:bg-blue-700">
-                    <span class="mr-1">+</span> tambah data
+                    <span class="mr-1"><i class="fa-solid fa-plus"></i></span> tambah data
                 </a>
-                
+
                 <!-- Tombol Aksi (ikon) -->
                 <div id="topActionButtons" class="hidden flex gap-2">
-                    <a id="viewBtn" href="#" class="bg-green-500 text-white p-2 rounded hover:bg-green-600" title="Lihat">
-                        🔍
+                    <a id="viewBtn" href="#" class="bg-green-500 text-white p-2 rounded hover:bg-green-600 text-center w-10"
+                        title="Lihat">
+                        <i class="fa-solid fa-magnifying-glass"></i>
                     </a>
-                    <a id="editBtn" href="#" class="bg-yellow-500 text-white p-2 rounded hover:bg-yellow-600" title="Edit">
-                        ✏️
+                    <a id="editBtn" href="#" class="bg-yellow-500 text-white p-2 rounded hover:bg-yellow-600 text-center w-10"
+                        title="Edit">
+                        <i class="fa-solid fa-pen"></i>
                     </a>
-                    <form id="deleteForm" method="POST" onsubmit="return confirm('Hapus penerimaan ini?')">
+                    <form id="deleteForm" method="POST" class="hidden">
                         @csrf
                         @method('DELETE')
-                        <button type="submit" class="bg-red-500 text-white p-2 rounded hover:bg-red-600" title="Hapus">
-                            🗑️
-                        </button>
                     </form>
+                    <button type="button" id="deleteBtn" class="bg-red-500 text-white p-2 rounded hover:bg-red-600 w-10"
+                        title="Hapus">
+                        <i class="fa-solid fa-trash"></i>
+                    </button>
                 </div>
             </div>
+
+            @if (session('success'))
+                <script>
+                    Swal.fire({
+                        icon: 'success',
+                        title: 'Berhasil',
+                        text: '{{ session('success') }}',
+                        confirmButtonColor: '#3085d6'
+                    });
+                </script>
+            @endif
 
             <!-- Kanan: Pencarian -->
             <input type="text" id="searchInput" placeholder="Search..."
@@ -67,7 +81,15 @@
                         </tr>
                     @endforelse
                 </tbody>
+                <p class="text-sm text-gray-600 mb-2">
+                    Menampilkan {{ $produks->firstItem() }} - {{ $produks->lastItem() }} dari total
+                    {{ $produks->total() }} data
+                </p>
             </table>
+            <!-- Pagination -->
+            <div class="mt-4">
+                {{ $produks->appends(request()->query())->links() }}
+            </div>
         </div>
     </div>
 
@@ -93,6 +115,31 @@
             if (!isRow && !isAction && !isEditModal) {
                 document.getElementById('topActionButtons').classList.add('hidden');
             }
+        });
+        document.getElementById('deleteBtn').addEventListener('click', function() {
+            Swal.fire({
+                title: 'Yakin ingin menghapus?',
+                text: "Data kategori akan dihapus permanen.",
+                icon: 'warning',
+                showCancelButton: true,
+                confirmButtonColor: '#e3342f',
+                cancelButtonColor: '#6c757d',
+                confirmButtonText: 'Ya, hapus!',
+                cancelButtonText: 'Batal'
+            }).then((result) => {
+                if (result.isConfirmed) {
+                    document.getElementById('deleteForm').submit();
+                }
+            });
+        });
+        document.getElementById('searchInput').addEventListener('input', function() {
+            const searchValue = this.value.toLowerCase();
+            const rows = document.querySelectorAll('tbody tr');
+
+            rows.forEach(row => {
+                const rowText = row.textContent.toLowerCase();
+                row.style.display = rowText.includes(searchValue) ? '' : 'none';
+            });
         });
     </script>
 @endsection

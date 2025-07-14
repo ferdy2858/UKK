@@ -96,8 +96,8 @@
 
             {{-- Tombol Simpan --}}
             <div class="flex justify-end pt-4">
-                <button type="submit" class="bg-blue-600 text-white px-6 py-2 rounded hover:bg-blue-700">
-                    Update Penerimaan
+                <button type="submit" class="bg-yellow-500 text-white px-6 py-2 rounded hover:bg-yellow-600">
+                    <i class="fa-solid fa-file"></i>Update Penerimaan  
                 </button>
             </div>
         </form>

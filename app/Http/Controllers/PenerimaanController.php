@@ -16,10 +16,10 @@ class PenerimaanController extends Controller
      */
     public function index()
     {
-        $penerimaans = Penerimaan::with(['supplier', 'details'])->latest()->get();
+        $penerimaans = Penerimaan::with(['supplier', 'details'  ])
+        ->orderBy('tanggal', 'desc')->paginate(20);
         return view('activity.penerimaan.index', compact('penerimaans'));
     }
-
 
     /**
      * Show the form for creating a new resource.
