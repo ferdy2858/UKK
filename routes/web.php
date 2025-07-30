@@ -21,5 +21,4 @@ Route::middleware('auth')->group(function () {
     Route::resource('penerimaan', PenerimaanController::class);
     Route::resource('pengeluaran', PengeluarannController::class);
     Route::patch('/pengeluaran/{id}/approve', [PengeluarannController::class, 'approve'])->name('pengeluaran.approve');
-
 });

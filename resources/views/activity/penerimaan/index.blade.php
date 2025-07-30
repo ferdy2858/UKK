@@ -14,19 +14,19 @@
                 </a>
 
                 <div id="topActionButtons" class="hidden flex gap-2">
-                    <a id="viewBtn" href="#" class="bg-green-500 text-white p-2 rounded hover:bg-green-600 text-center w-10"
-                        title="Lihat">
+                    <a id="viewBtn" href="#"
+                        class="bg-green-500 text-white p-2 rounded hover:bg-green-600 text-center w-10" title="Lihat">
                         <i class="fa-solid fa-magnifying-glass"></i>
                     </a>
-                    <a id="editBtn" href="#" class="bg-yellow-500 text-white p-2 rounded hover:bg-yellow-600 text-center w-10"
-                        title="Edit">
+                    <a id="editBtn" href="#"
+                        class="bg-yellow-500 text-white p-2 rounded hover:bg-yellow-600 text-center w-10" title="Edit">
                         <i class="fa-solid fa-pen"></i>
                     </a>
                     <form id="deleteForm" method="POST" class="hidden">
                         @csrf
                         @method('DELETE')
-                        <button type="button" id="deleteBtn" class="bg-red-500 text-white p-2 rounded hover:bg-red-600 w-10"
-                            title="Hapus">
+                        <button type="button" id="deleteBtn"
+                            class="bg-red-500 text-white p-2 rounded hover:bg-red-600 w-10" title="Hapus">
                             <i class="fa-solid fa-trash"></i>
                         </button>
                     </form>

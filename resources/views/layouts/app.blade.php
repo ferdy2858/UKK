@@ -92,6 +92,11 @@
                         </a>
                     </div>
                 </div>
+                <a href="/laporan"
+                    class="flex items-center gap-2 px-4 py-2 rounded hover:bg-gray-50 {{ Request::is('laporan') ? 'bg-gray-100 font-semibold text-blue-600' : '' }}">
+                    <i class="fa-solid fa-envelope"></i>
+                    <span>Laporan</span>
+                </a>
             </nav>
         </aside>
 
@@ -176,4 +181,5 @@
         });
     </script>
 </body>
+
 </html>
