@@ -36,7 +36,7 @@
                 <a href="{{ route('pengeluaran.index') }}" class="text-blue-600 hover:underline text-sm">Lihat semua</a>
             </div>
             <table class="w-full text-sm border">
-                <thead class="bg-gray-100">
+                <thead class="bg-blue-300">
                     <tr>
                         <th class="p-2 border text-left">Tanggal</th>
                         <th class="p-2 border text-left">Tujuan</th>
@@ -72,7 +72,7 @@
                 <a href="{{ route('produk.index') }}" class="text-blue-600 hover:underline text-sm">Lihat semua produk</a>
             </div>
             <table class="w-full text-sm border">
-                <thead class="bg-gray-100 text-left">
+                <thead class="bg-blue-300 text-left">
                     <tr>
                         <th class="p-2 border">Produk</th>
                         <th class="p-2 border text-right">Stok</th>

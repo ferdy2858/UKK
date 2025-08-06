@@ -2,10 +2,10 @@
 
 @section('content')
     {{-- Header --}}
-    <div class="bg-gray-200 text-black px-6 py-4 flex items-center justify-between rounded-t-xl">
+    <div class="bg-blue-300 text-black px-6 py-4 flex items-center justify-between rounded-t-xl">
         <div>
             <div class="text-2xl font-bold flex items-center gap-2">
-                <a href="{{ route('supplier.index') }}" class="bg-white text-red-800 px-3 py-1 rounded hover:bg-gray-200">
+                <a href="{{ route('supplier.index') }}" class="bg-blue-200   px-3 py-1 rounded hover:bg-blue-300">
                     &larr;
                 </a>
                 Supplier

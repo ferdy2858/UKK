@@ -17,10 +17,6 @@
 
                 <!-- Tombol Aksi -->
                 <div id="topActionButtons" class="hidden flex gap-2">
-                    <a id="viewBtn" href="#" class="bg-green-500 text-white p-2 rounded hover:bg-green-600 text-center w-10"
-                        title="Lihat">
-                        <i class="fa-solid fa-magnifying-glass"></i>
-                    </a>
                     <a id="editBtn" href="#" class="bg-yellow-500 text-white p-2 rounded hover:bg-yellow-600 text-center w-10"
                         title="Edit">
                         <i class="fa-solid fa-pen"></i>
@@ -55,7 +51,7 @@
         <!-- Tabel -->
         <div class="overflow-x-auto">
             <table class="min-w-full border border-gray-200 text-sm">
-                <thead class="bg-gray-200">
+                <thead class="bg-blue-300">
                     <tr>
                         <th class="p-2 border w-16">No</th>
                         <th class="p-2 border">Kategori</th>
@@ -159,7 +155,6 @@
             selectedNama = row.dataset.nama;
 
             document.getElementById('topActionButtons').classList.remove('hidden');
-            document.getElementById('viewBtn').href = `#`;
             document.getElementById('editBtn').onclick = openEditModal;
 
             document.getElementById('deleteForm').action = `/kategori/${selectedId}`;

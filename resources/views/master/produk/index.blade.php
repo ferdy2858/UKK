@@ -51,7 +51,7 @@
         <!-- Tabel -->
         <div class="overflow-x-auto">
             <table class="min-w-full border border-gray-200 text-sm">
-                <thead class="bg-gray-200">
+                <thead class="bg-blue-300">
                     <tr>
                         <th class="p-2 border w-16">No</th>
                         <th class="p-2 border">Nama Produk</th>

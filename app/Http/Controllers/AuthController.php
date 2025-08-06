@@ -23,7 +23,21 @@ class AuthController extends Controller
 
         if (Auth::attempt($credentials)) {
             $request->session()->regenerate();
-            return redirect()->intended('/');
+
+            $user = Auth::user();
+
+            if ($user->hasRole('admin')) {
+                return redirect()->route('dashboard');
+            } elseif ($user->hasRole('manajer')) {
+                return redirect()->route('manajer.dashboard');
+            } elseif ($user->hasRole('staf gudang')) {
+                return redirect()->route('gudang.dashboard');
+            } else {
+                Auth::logout();
+                return redirect('/login')->withErrors([
+                    'username' => 'Akun tidak memiliki hak akses.',
+                ]);
+            }
         }
 
         return back()->withErrors([
